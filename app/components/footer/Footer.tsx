@@ -45,13 +45,13 @@ const Footer = () => {
 
         {footerMenus.map((menuItem) => {
           return (
-            <div className="col-span-1">
+            <div className="col-span-1" key={menuItem.header}>
               <h3 className="text-white font-mont uppercase pb-3">
                 {menuItem.header}
               </h3>
               <ul className="text-[#949494] font-rbt">
                 {menuItem.items.map((item) => (
-                  <li className="py-1 hover:text-white cursor-pointer">
+                  <li className="py-1 hover:text-white cursor-pointer" key={item}>
                     {item}
                   </li>
                 ))}
