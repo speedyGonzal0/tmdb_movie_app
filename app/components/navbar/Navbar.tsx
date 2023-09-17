@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
-import SearchButton from "./Searchbutton";
+import SearchButton from "./SearchButton";
 
 const Logo = styled.h1`
   font-family: "Griffy", cursive;
@@ -46,15 +46,14 @@ const Navbar = () => {
     <nav className="sticky top-0 h-[93px] w-full bg-gradient-to-r from-black from-20% to-[#6650A5] drop-shadow-[0_4px_15px_rgba(0,0,0,0.25)] backdrop-blur">
       <div className="grid grid-cols-8 gap-4 h-full px-6">
         <div className="col-span-1 flex items-center">
-          {" "}
-          <Logo> Dramatic </Logo>{" "}
+          <Logo> Dramatic </Logo>
         </div>
         <ul className="col-span-3 text-[#A1B1CB] font-mont flex items-center justify-evenly uppercase">
           {navLinks.map((link) => {
             const isActive = pathName == link.href;
 
             return (
-              <li className="relative flex justify-center">
+              <li className="relative flex justify-center hover:text-white">
                 <Link
                   className={isActive ? activeClass : ""}
                   href={link.href}

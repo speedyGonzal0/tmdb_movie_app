@@ -38,7 +38,7 @@ const footerMenus: footerMenu[] = [
 const Footer = () => {
   return (
     <footer className="bg-[#161214] h-[389px] grid grid-rows-4">
-      <div className="row-span-3 grid grid-cols-5 gap-4 pt-24 px-20">
+      <div className="row-span-3 grid grid-cols-5 gap-4 pt-16 px-20">
         <div className="col-span-1 flex items-start">
           <LanguageButton />
         </div>
