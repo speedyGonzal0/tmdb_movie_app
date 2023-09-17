@@ -1,8 +1,8 @@
 
 export default function Home() {
   return (
-    <main>
-      <h1 className='font-mono'> Initializing next app </h1>
+    <main className="h-full text-white">
+      <h1> Initializing next app </h1>
     </main>
   )
 }
