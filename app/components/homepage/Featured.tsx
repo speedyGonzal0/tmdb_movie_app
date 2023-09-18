@@ -1,39 +1,64 @@
 import React from "react";
 import FeaturedButton from "./FeaturedButton";
-import Image from "next/image";
-import imdbLogo from "../../../public/imdb.png";
 import Tag from "./Tag";
+import { notFound } from "next/navigation";
+import ImdbLink from "./ImdbLink";
 
-const Featured = () => {
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyOTc0OTAzMjZkYmIwZTg5YjdjZWVjM2MzMDkwNmZlNSIsInN1YiI6IjY1MDUzNjFhYzJiOWRmMDEwMjYyMTAxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pdyYl5PU8CThfNfAumMJgXPHE482Pki4nHGuS3xyqbk",
+  },
+  next: { revalidate: 60 },
+};
+
+const fetchFeaturedMovieDetails  = async () => {
+
+    const movies: any = await fetch(
+        "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
+        options
+      );
+    
+    const res = await movies.json()
+    
+   const movie:any = await fetch(`https://api.themoviedb.org/3/movie/${res.results[0].id}?language=en-US`, options)
+   
+   if(!movie.ok){
+    notFound();
+   }
+
+   return movie.json();
+}
+
+const Featured = async () => {
+
+  const featuredMovie = await fetchFeaturedMovieDetails();
+
   return (
-    <div className="text-white bg-[url('https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_.jpg')] bg-no-repeat bg-cover bg-center">
+    <div className="text-white bg-no-repeat bg-cover bg-center" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500${featuredMovie.poster_path})`}}>
       <div className="bg-gradient-to-r from-black from-20% p-5">
-        <h1 className="text-8xl mt-5 mb-5 font-mont uppercase">
-          movie title
-        </h1>
+        <h1 className="text-8xl mt-5 mb-5 font-mont uppercase"> {featuredMovie.title} </h1>
         <p className="font-mont font-semibold mb-2 text-sm w-1/2">
-          movie description
+          {featuredMovie.overview}
         </p>
         <h3 className="font-mont font-semibold uppercase text-[#FF2E00] text-lg">
           Genres
         </h3>
-        <p className="font-mont font-semibold text-lg mb-2"> Romance, Drama </p>
+        <p className="font-mont font-semibold text-lg mb-2">
+            {featuredMovie.genres.map( (genre: {id:number, name: string}) => genre.name ).join(', ')}
+        </p>
         <div className="buttons flex gap-5 mb-2">
           <FeaturedButton title="Watch" icon="play_arrow" color="#5436A9" />
           <FeaturedButton title="My List" icon="add" color="#5C5C5C" />
         </div>
         <div className="ratings flex gap-4 items-center font-mont">
-          <Image
-            src={imdbLogo}
-            height={50}
-            width={50}
-            alt="IMDB link"
-            className="cursor-pointer"
-          />
-          <p className="font-bold text-[#FFC907] text-xl"> 8.0 </p>
-          <Tag text="U/A" />
+            <ImdbLink id = {featuredMovie.imdb_id}/>
+          <p className="font-bold text-[#FFC907] text-xl"> {featuredMovie.vote_average.toFixed(1)} </p>
+          <Tag text={featuredMovie.adult ? "A" : "U/A"} />
           <Tag text="4K" />
-          <p className="font-bold text-[#959595] text-xl"> 2015 </p>
+          <p className="font-bold text-[#959595] text-xl"> {new Date(featuredMovie.release_date).getFullYear()} </p>
         </div>
       </div>
     </div>
