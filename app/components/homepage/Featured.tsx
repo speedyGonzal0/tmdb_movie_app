@@ -3,6 +3,7 @@ import ActionButton from "./ActionButton";
 import Tag from "./Tag";
 import { notFound } from "next/navigation";
 import ImdbLink from "./ImdbLink";
+import Link from "next/link";
 
 const options = {
   method: "GET",
@@ -22,8 +23,10 @@ const fetchFeaturedMovieDetails = async () => {
 
   const res = await movies.json();
 
+  const movieIdx = Math.floor(Math.random() * res.results.length);
+
   const movie: any = await fetch(
-    `https://api.themoviedb.org/3/movie/${res.results[0].id}?language=en-US`,
+    `https://api.themoviedb.org/3/movie/${res.results[movieIdx].id}?language=en-US`,
     options
   );
 
@@ -45,9 +48,12 @@ const Featured = async () => {
       }}
     >
       <div className="bg-gradient-to-r from-black from-20% p-5">
-        <h1 className="text-8xl mt-5 mb-5 font-mont uppercase">
-          {featuredMovie.title}
-        </h1>
+        <Link href={`/${featuredMovie.id}`}>
+          <h1 className="text-8xl mt-5 mb-5 font-mont uppercase w-4/5">
+            {featuredMovie.title}
+          </h1>
+        </Link>
+
         <p className="font-mont font-semibold mb-2 text-sm w-1/2">
           {featuredMovie.overview}
         </p>

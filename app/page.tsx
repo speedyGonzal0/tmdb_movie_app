@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Featured from "./components/homepage/Featured";
 import ListContainer from "./components/homepage/ListContainer";
 import MovieTile from "./components/homepage/MovieTile";
+import ActionButton from "./components/homepage/ActionButton";
 
 const options = {
   method: "GET",
@@ -13,7 +14,7 @@ const options = {
   next: { revalidate: 60 },
 };
 
-const fetchMustWatchMovies =  async () => {
+const fetchMustWatchMovies = async () => {
   const movies: any = await fetch(
     "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
     options
@@ -23,10 +24,10 @@ const fetchMustWatchMovies =  async () => {
   if (!movies.ok) {
     notFound();
   }
-  return res;  
-}
+  return res;
+};
 
-const fetchRecommendedMovies =  async () => {
+const fetchRecommendedMovies = async () => {
   const movies: any = await fetch(
     "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
     options
@@ -37,10 +38,10 @@ const fetchRecommendedMovies =  async () => {
     notFound();
   }
 
-  return res;  
-}
+  return res;
+};
 
-const fetchBollywoodMovies =  async () => {
+const fetchBollywoodMovies = async () => {
   const movies: any = await fetch(
     "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&region=IN",
     options
@@ -51,12 +52,10 @@ const fetchBollywoodMovies =  async () => {
     notFound();
   }
 
-  return res;  
-}
-
+  return res;
+};
 
 export default async function Home() {
-
   const mustWatchMovies = await fetchMustWatchMovies();
 
   const recommendedMovies = await fetchRecommendedMovies();
@@ -64,30 +63,58 @@ export default async function Home() {
   const bollywoodMovies = await fetchBollywoodMovies();
 
   return (
-    <main 
-    // className="h-full text-white bg-[url('https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_.jpg')] bg-no-repeat bg-cover"
-    // className="h-full bg-[url('https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_.jpg')] bg-no-repeat bg-cover bg-center"
-    className="h-full pb-5"
-    >
+    <main className="h-full pb-5">
       <Featured />
       <ListContainer bgColor showIcon title="Movies you must watch">
-        {mustWatchMovies.results.map((movie:any) => (
-          <MovieTile link={movie.id} key={movie.id} title={movie.title} imdb={movie.vote_average} img={movie.poster_path} year={movie.release_date}/>
+        {mustWatchMovies.results.map((movie: any) => (
+          <MovieTile
+            link={movie.id}
+            key={movie.id}
+            title={movie.title}
+            imdb={movie.vote_average}
+            img={movie.poster_path}
+            year={movie.release_date}
+          />
         ))}
       </ListContainer>
 
-      <ListContainer bgColor = {false} showIcon = {false} title="Recommended for you">
-        {recommendedMovies.results.map((movie:any) => (
-          <MovieTile link={movie.id} key={movie.id} title={movie.title} imdb={movie.vote_average} img={movie.poster_path} year={movie.release_date}/>
+      <ListContainer
+        bgColor={false}
+        showIcon={false}
+        title="Recommended for you"
+      >
+        {recommendedMovies.results.map((movie: any) => (
+          <MovieTile
+            link={movie.id}
+            key={movie.id}
+            title={movie.title}
+            imdb={movie.vote_average}
+            img={movie.poster_path}
+            year={movie.release_date}
+          />
         ))}
       </ListContainer>
 
-      <ListContainer bgColor = {false} showIcon = {false} title="Bollywood Classics">
-        {bollywoodMovies.results.map((movie:any) => (
-          <MovieTile link={movie.id} key={movie.id} title={movie.title} imdb={movie.vote_average} img={movie.poster_path} year={movie.release_date}/>
+      <ListContainer
+        bgColor={false}
+        showIcon={false}
+        title="Bollywood Classics"
+      >
+        {bollywoodMovies.results.map((movie: any) => (
+          <MovieTile
+            link={movie.id}
+            key={movie.id}
+            title={movie.title}
+            imdb={movie.vote_average}
+            img={movie.poster_path}
+            year={movie.release_date}
+          />
         ))}
       </ListContainer>
 
+      <div className="flex justify-center">
+        <ActionButton title="Show more" icon="expand_more" color="#5E47A1" />
+      </div>
     </main>
   );
 }

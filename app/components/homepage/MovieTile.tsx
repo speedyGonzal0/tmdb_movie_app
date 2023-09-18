@@ -15,7 +15,7 @@ type movieTileProps = {
 const MovieTile = ( props: movieTileProps ) => {
 
   return (
-    <Link href="" className="flex flex-col shrink-0">
+    <Link href={`/${props.link}`} className="flex flex-col shrink-0">
       <Image
         src={
           'https://image.tmdb.org/t/p/w500' + props.img
