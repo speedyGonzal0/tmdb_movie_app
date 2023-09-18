@@ -43,7 +43,7 @@ const Navbar = () => {
   const pathName = usePathname();
 
   return (
-    <nav className="sticky top-0 h-[93px] w-full bg-gradient-to-r from-black from-20% to-[#6650A5] drop-shadow-[0_4px_15px_rgba(0,0,0,0.25)] backdrop-blur">
+    <nav className="sticky z-10 top-0 h-[93px] w-full bg-gradient-to-r from-black from-20% to-[#6650A5] drop-shadow-[0_4px_15px_rgba(0,0,0,0.25)] backdrop-blur">
       <div className="grid grid-cols-8 gap-4 h-full px-6">
         <div className="col-span-1 flex items-center">
           <Logo> Dramatic </Logo>
@@ -53,7 +53,7 @@ const Navbar = () => {
             const isActive = pathName == link.href;
 
             return (
-              <li className="relative flex justify-center hover:text-white">
+              <li className="relative flex justify-center hover:text-white" key={link.name}>
                 <Link
                   className={isActive ? activeClass : ""}
                   href={link.href}
