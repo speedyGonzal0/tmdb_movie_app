@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import imdbLogo from "../../../public/imdb.png";
-import Link from "next/link";
 
 type imdbProp = {
   id: string;
@@ -10,7 +9,7 @@ type imdbProp = {
 const ImdbLink = (props: imdbProp) => {
 
   return (
-    <Link href={`https://www.imdb.com/title/${props.id}`}>
+    <a href={`https://www.imdb.com/title/${props.id}`} target="_blank">
       <Image
         src={imdbLogo}
         height={50}
@@ -18,7 +17,7 @@ const ImdbLink = (props: imdbProp) => {
         alt="IMDB link"
         className="cursor-pointer"
       />
-    </Link>
+    </a>
   );
 };
 
